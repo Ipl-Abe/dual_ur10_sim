@@ -1,0 +1,107 @@
+<?xml version="1.0"?>
+
+<robot xmlns:xacro="http://www.ros.org/wiki/xacro" name="dual_ur10">
+
+<link name="world"/>
+
+<link name="left_pedestal">
+    <inertial>
+    <origin xyz="0.0 0.0 0.5" rpy="0.0 0.0 0.0"/>
+    <mass value="20.0"/>
+    <inertia ixx="200.0" ixy="200.0" ixz="200.0" iyy="200.0" iyz="200.0" izz="200.0"/>
+    </inertial>
+    <visual name="">
+        <origin xyz="0.0 0.0 0.5" rpy="0.0 0.0 0.0"/>
+        <geometry>
+            <cylinder radius="0.1" length="1.0"/>
+        </geometry>
+        <material name="">
+            <color rgba="0.5 0.5 0.5 1.0"/>
+            <texture filename=""/>
+        </material>
+    </visual>
+    <collision>
+    <origin xyz="0.0 0.0 0.5" rpy="0.0 0.0 0.0"/>
+        <geometry>
+            <cylinder radius="0.1" length="1.0"/>
+        </geometry>
+    </collision>
+</link>
+
+<gazebo reference="left_pedestal">
+<mu1>0.2</mu1>
+<mu2>0.2</mu2>
+<material>Gazebo/Orange</material>
+</gazebo>
+
+
+<joint name="world_joint_right" type="fixed">
+    <origin xyz="0.0 -0.5 0.0" rpy="0.0 0.0 0.0"/>
+    <parent link="world"/>
+    <child link="right_pedestal"/>
+</joint>
+
+
+
+<gazebo reference="right_pedestal">
+<mu1>0.2</mu1>
+<mu2>0.2</mu2>
+<material>Gazebo/Orange</material>
+</gazebo>
+
+
+<link name="right_pedestal">
+    <inertial>
+    <origin xyz="0.0 0.0 0.5" rpy="0.0 0.0 0.0"/>
+    <mass value="20.0"/>
+    <inertia ixx="200.0" ixy="200.0" ixz="200.0" iyy="200.0" iyz="200.0" izz="200.0"/>
+    </inertial>
+    <visual name="">
+        <origin xyz="0.0 0.0 0.5" rpy="0.0 0.0 0.0"/>
+        <geometry>
+            <cylinder radius="0.1" length="1.0"/>
+        </geometry>
+        <material name="">
+            <color rgba="0.5 0.5 0.5 1.0"/>
+            <texture filename=""/>
+        </material>
+    </visual>
+    <collision>
+    <origin xyz="0.0 0.0 0.5" rpy="0.0 0.0 0.0"/>
+        <geometry>
+            <cylinder radius="0.1" length="1.0"/>
+        </geometry>
+    </collision>
+</link>
+
+<joint name="world_joint_left" type="fixed">
+    <origin xyz="0.0 0.5 0.0" rpy="0.0 0.0 0.0"/>
+    <parent link="world"/>
+    <child link="left_pedestal"/>
+</joint>
+
+
+
+<xacro:arg name="transmission_hw_interface" default="hardware_interface/PositionJointInterface"/>
+<xacro:include filename="$(find ur_description)/urdf/common.gazebo.xacro"/>
+<xacro:include filename="$(find ur_description)/urdf/ur10.urdf.xacro"/>
+<xacro:ur10_robot prefix="right_" joint_limited="true" transmission_hw_interface="$(arg transmission_hw_interface)"/>
+<xacro:ur10_robot prefix="left_" joint_limited="true" transmission_hw_interface="$(arg transmission_hw_interface)"/>
+
+
+<joint name="base_joint_right" type="fixed">
+    <parent link="right_pedestal"/>
+    <child link="right_base_link"/>
+    <origin xyz="0.0 0.0 1.0" rpy="0.0 0.0 0.0"/>
+</joint>
+
+<joint name="base_joint_left" type="fixed">
+    <parent link="left_pedestal"/>
+    <child link="left_base_link"/>
+    <origin xyz="0.0 0.0 1.0" rpy="0.0 0.0 0.0"/>
+</joint>
+    
+
+</robot>
+
+
